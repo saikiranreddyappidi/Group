@@ -62,7 +62,6 @@
         type="password" name="pword"> <br /> <br /> <input
         type="submit" value=" LOGIN "><br />
 </form>
-#call the class from the package
 
 
 <br />
