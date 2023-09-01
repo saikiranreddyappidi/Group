@@ -3,7 +3,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class user_reg {
+public class Trains {
 
     public static boolean create(String email, String password, String first_name, String last_name, String addr, String phno) throws SQLException, ClassNotFoundException {
         try {
@@ -27,48 +27,42 @@ public class user_reg {
         return false;
     }
 
-    public static int login(String username, String password) throws SQLException, ClassNotFoundException {
-        System.out.println("username: " + username + " password: " + password);
+    public static boolean book_train(String train, String username,int seats) throws SQLException, ClassNotFoundException {
         data_con connect = new data_con();
         try {
-            String insertQuery = "INSERT INTO railway.user_login (username, paswd,datetime) VALUES (?, ?, ?)";
+            String insertQuery = "INSERT INTO railway.bookings (uname,trainno, seats) VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = connect.con.prepareStatement(insertQuery);
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setString(2, train);
+            preparedStatement.setInt(3, seats);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connect.con.close();
-            return check(username, password);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
         connect.con.close();
-        return 2;
+        return false;
     }
 
-    public static int check(String mail, String pass) {
-        try {
-            data_con data = new data_con();
-            Statement stmt = data.con.createStatement();
-            String insertQuery = "select password from railway.users_reg " + "where email='" + mail.trim() + "' ";
-            System.out.println(insertQuery);
-            ResultSet result = stmt.executeQuery(insertQuery);
-            result.next();
-            System.out.println("email:" + result.getString(1));
-            if(Objects.equals(pass, result.getString(1))){
-                return 1;
-            }
-            else{
-                return 0;
-            }
-        }
-        catch (Exception e){
-            return -1;
-        }
+    public static ResultSet view() throws SQLException, ClassNotFoundException {
+        data_con data = new data_con();
+        Statement stmt = data.con.createStatement();
+        String insertQuery = "select * from railway.trains";
+        System.out.println(insertQuery);
+        return stmt.executeQuery(insertQuery);
     }
 
-    public static void logout(String username) throws SQLException, ClassNotFoundException {
+    public static ResultSet ticket_history(String uname) throws SQLException, ClassNotFoundException {
+        data_con data = new data_con();
+        Statement stmt = data.con.createStatement();
+        String insertQuery = "select * from railway.bookings where uname = '" + uname.trim() + "'";
+        System.out.println(insertQuery);
+        return stmt.executeQuery(insertQuery);
+    }
+
+    public static void cancel(String username) throws SQLException, ClassNotFoundException {
         data_con connect = new data_con();
         try {
             //delete the user from the user_login table

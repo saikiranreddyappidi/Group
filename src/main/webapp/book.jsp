@@ -1,5 +1,11 @@
-<%@ page import="com.example.javaweb.user_reg" %>
-<%@ page import="java.sql.*" %>
+<%@ page import="com.example.javaweb.Trains" %>
+<%@ page import="java.sql.SQLException" %><%--
+  Created by IntelliJ IDEA.
+  User: saiki
+  Date: 02-09-2023
+  Time: 00:35
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -60,6 +66,53 @@
         </p>
     </div>
 </header>
+
+<div class='tab'>
+    <p class='menu'> Please book only if you are sure !
+    </p>
+</div>
+
+<div class="main">
+    <p class="menu">Book trains</p>
+</div>
+<div class="tab">
+    <p class="menu red">
+        Please Check The <a href='Availability.html'>Seat availability</a>
+        before Booking !
+    </p>
+</div>
+
+<%
+    String train = request.getParameter("trainNo");
+    String email = request.getParameter("name");
+%>
+
+<form action="" class="tab red" method="post">
+<%--    Email: <p><%=email%></p><br /> <br />--%>
+    TrainNumber: <p><%=train%></p><br /> <br />
+    No of seats:
+    <label>
+        <input type='int' name='seats' value="1">
+    </label><br /> <br /> <input
+        type="submit" value=" Book Now "><br />
+</form>
+<%
+    int seats=1;
+    boolean flag=false;
+    if(request.getParameter("seats")!=null) {
+        seats = Integer.parseInt(request.getParameter("seats"));
+        try {
+            flag = Trains.book_train(train, email, seats);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    if(flag) {
+        response.sendRedirect("history.jsp?name="+email);
+    }
+%>
+<%--<p class='menu red'>Booking Failed</p>--%>
+<br />
 
 </body>
 </html>
