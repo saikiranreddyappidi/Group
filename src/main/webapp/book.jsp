@@ -92,7 +92,7 @@
     TrainNumber: <p><%=train%></p><br /> <br />
     No of seats:
     <label>
-        <input type='int' name='seats' value="1">
+        <input type='number' name='seats' value="1">
     </label><br /> <br /> <input
         type="submit" value=" Book Now "><br />
 </form>

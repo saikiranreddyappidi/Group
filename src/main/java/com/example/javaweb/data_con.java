@@ -11,6 +11,7 @@ public class data_con{
         Class.forName("com.mysql.cj.jdbc.Driver");
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/railway", "root", "database@9440672439");
     }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         data_con obj = new data_con();
     }

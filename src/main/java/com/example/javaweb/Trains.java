@@ -62,6 +62,28 @@ public class Trains {
         return stmt.executeQuery(insertQuery);
     }
 
+    public static void status(String username, String train,String stat) throws SQLException, ClassNotFoundException {
+        data_con connect = new data_con();
+        try {
+            String insertQuery;
+            if (Objects.equals(stat, "true")){
+                insertQuery = "update railway.bookings set status='booked' where uname = ? and trainno = ?";
+            }
+            else{
+                insertQuery = "update railway.bookings set status='cancelled' where uname = ? and trainno = ?";
+            }
+            PreparedStatement preparedStatement = connect.con.prepareStatement(insertQuery);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, train);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connect.con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        connect.con.close();
+    }
+
     public static void cancel(String username) throws SQLException, ClassNotFoundException {
         data_con connect = new data_con();
         try {
@@ -76,6 +98,13 @@ public class Trains {
             e.printStackTrace();
         }
         connect.con.close();
+    }
+    public static ResultSet admin_ticket() throws SQLException, ClassNotFoundException {
+        data_con data = new data_con();
+        Statement stmt = data.con.createStatement();
+        String insertQuery = "select * from railway.bookings";
+        System.out.println(insertQuery);
+        return stmt.executeQuery(insertQuery);
     }
 }
 
