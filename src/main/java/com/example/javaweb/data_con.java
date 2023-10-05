@@ -9,7 +9,7 @@ public class data_con{
     Connection con;
     data_con() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/railway", "root", "database@9440672439");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/railway", "root", "password");
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
