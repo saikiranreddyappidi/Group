@@ -1,3 +1,4 @@
+create database railway;
 -- auto-generated definition
 create table bookings
 (
